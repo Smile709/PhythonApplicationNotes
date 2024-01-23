@@ -66,4 +66,44 @@ def add(notes, title, body): # Добавление новой заметки
     notes.append(note)
     print(f'Заметка с ID {note_id} добавлена успешно.')
 
+def edit(notes, note_id, title, body): # Редактирование заметки
+    for note in notes:
+        if note['id'] == note_id:
+            note['title'] = title
+            note['body'] = body
+            note['timestamp'] = get_current_timestamp()
+            print(f'Заметка с ID {note_id} отредактирована успешно.')
+            return
+    print(f'Заметка с ID {note_id} не найдена.')
+
+def delete(notes, note_id): # Удаление заметки
+    for note in notes:
+        if note['id'] == note_id:
+            notes.remove(note)
+            print(f'Заметка с ID {note_id} удалена успешно.')
+            return
+    print(f'Заметка с ID {note_id} не найдена.')
+
+def display(notes): # Вывод всех заметок
+    if not notes:
+        print("Список заметок пуст.")
+    else:
+        for note in notes:
+            print(f"ID: {note['id']}, Заголовок: {note['title']}, Тело: {note['body']}, Дата: {note['timestamp']}")
+
+def display_id(notes, note_id): # Вывод заметки по ID
+    for note in notes:
+        if note['id'] == note_id:
+            print(f"ID: {note['id']}, Заголовок: {note['title']}, Тело: {note['body']}, Дата: {note['timestamp']}")
+            return
+    print(f'Заметка с ID {note_id} не найдена.')
+
+def filter_notes_by_date(notes, date_str): # Фильтрация заметок по дате
+    filtered_notes = [note for note in notes if note['timestamp'].startswith(date_str)]
+    return filtered_notes
+
+def get_current_timestamp(): # Получение текущей даты и времени в строковом формате
+    from datetime import datetime
+    return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
 work_with_notes("notes.json")
