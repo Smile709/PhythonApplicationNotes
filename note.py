@@ -49,13 +49,21 @@ def read_json(filename):
     notes = []
     try:
         with open(filename, 'r') as file:
-            notes = json.load(file)
+            file_content = file.read()
+            notes = json.loads(file_content)
     except FileNotFoundError:
         pass
     return notes
 
-def save_json(filename, notes): # Сохранение заметок в файл
+def save_json(filename, notes):  # Сохранение заметок в файл
     with open(filename, 'w') as file:
-        json.dump(notes, file)
+        json.dump(notes, file, indent=2)
+
+def add(notes, title, body): # Добавление новой заметки
+    note_id = len(notes) + 1
+    timestamp = get_current_timestamp()
+    note = {'id': note_id, 'title': title, 'body': body, 'timestamp': timestamp}
+    notes.append(note)
+    print(f'Заметка с ID {note_id} добавлена успешно.')
 
 work_with_notes("notes.json")
